@@ -4,11 +4,11 @@ Add shortcut for switching swiftly between select modes in 3D view and UVeditor
 
 --------
 
-Why ?
+### Why ?
 
 To switch between selection mode in Blender you have to do "ctrl+tab then key" or "move mouse + clic + reposition mouse". These actions are heavily repeated during modelling and deserves dedicated keys. Guess what ? these are available !
 
-Description:
+### Description:
 
 This addon map hotkeys for edit mode only on the top row numbers keys.
 (incompatible with "emulate numpad" option)
