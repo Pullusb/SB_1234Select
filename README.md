@@ -2,6 +2,8 @@
 
 Add shortcut for switching swiftly between select modes in 3D view and UVeditor
 
+[**DEMO**](https://youtu.be/fvmQIt_8UCg)
+
 --------
 
 ### Why ?
