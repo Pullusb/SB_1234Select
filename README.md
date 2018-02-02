@@ -2,8 +2,10 @@
 
 Add shortcut for switching swiftly between select modes in 3D view and UVeditor
 
-[**DEMO**](https://youtu.be/fvmQIt_8UCg)
-
+[**DEMO Youtube**](https://youtu.be/fvmQIt_8UCg)
+  
+**[Download latest](https://raw.githubusercontent.com/Pullusb/SB_1234Select/master/SB_1234Select.py)** (right click, save Target as)  
+    
 --------
 
 ### Why ?
