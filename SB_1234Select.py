@@ -19,7 +19,7 @@
 bl_info = {
     "name": "1234Select",
     "author": "Samuel Bernou",
-    "version": (1, 1),
+    "version": (1, 2),
     "blender": (2, 75, 0),
     "location": "View3D/UVeditor(editmode) > 1,2,3,4 keys",
     "description": "Quick switch for selection mode ",
@@ -61,7 +61,9 @@ def register():
     quickSelect_keymaps.append((km,kmi))
     
     # keymap set for UVeditor
-    km = wm.keyconfigs.default.keymaps['UV Editor']
+    #using default'UV Editor' doesn't work after a restart so creating a new km
+    #km = wm.keyconfigs.default.keymaps['UV Editor']
+    km = wm.keyconfigs.addon.keymaps.new('UV Editor', space_type='EMPTY', region_type='WINDOW')
     for k, v in uv_sel_keymap.items():
         kmi = km.keymap_items.new('wm.context_set_enum', k, 'PRESS')
         kmi.properties.data_path = 'tool_settings.uv_select_mode'
