@@ -19,7 +19,7 @@
 bl_info = {
     "name": "1234Select",
     "author": "Samuel Bernou",
-    "version": (1, 2),
+    "version": (1, 3),
     "blender": (2, 75, 0),
     "location": "View3D/UVeditor(editmode) > 1,2,3,4 keys",
     "description": "Quick switch for selection mode ",
@@ -49,17 +49,18 @@ def register():
     wm = bpy.context.window_manager
 
     # keymap set for view3D only in editmode
-    km = wm.keyconfigs.default.keymaps['Mesh']
+    #km = wm.keyconfigs.default.keymaps['Mesh']#not working for some users...
+    km = wm.keyconfigs.addon.keymaps.new(name = "Mesh", space_type = "EMPTY")
     for k, v in mesh_sel_keymap.items():
         kmi = km.keymap_items.new('wm.context_set_value', k, 'PRESS')
         kmi.properties.data_path = 'tool_settings.mesh_select_mode'
         kmi.properties.value = v
         quickSelect_keymaps.append((km,kmi))
-        
+
     kmi = km.keymap_items.new('wm.context_toggle', 'FOUR', 'PRESS')
     kmi.properties.data_path = 'space_data.use_occlude_geometry'
     quickSelect_keymaps.append((km,kmi))
-    
+
     # keymap set for UVeditor
     #using default'UV Editor' doesn't work after a restart so creating a new km
     #km = wm.keyconfigs.default.keymaps['UV Editor']
@@ -77,6 +78,6 @@ def unregister():
         km.keymap_items.remove(kmi)
     # clear the list
     quickSelect_keymaps.clear()
-    
+
 if __name__ == "__main__":
     register()
