@@ -19,7 +19,7 @@
 bl_info = {
     "name": "1234Select",
     "author": "Samuel Bernou",
-    "version": (1, 3),
+    "version": (1, 4),
     "blender": (2, 75, 0),
     "location": "View3D/UVeditor(editmode) > 1,2,3,4 keys",
     "description": "Quick switch for selection mode ",
@@ -46,38 +46,40 @@ uv_sel_keymap = {
 quickSelect_keymaps = [] # list of new custom keymap
 
 def register():
-    wm = bpy.context.window_manager
+    if not bpy.app.background:
+        wm = bpy.context.window_manager
 
-    # keymap set for view3D only in editmode
-    #km = wm.keyconfigs.default.keymaps['Mesh']#not working for some users...
-    km = wm.keyconfigs.addon.keymaps.new(name = "Mesh", space_type = "EMPTY")
-    for k, v in mesh_sel_keymap.items():
-        kmi = km.keymap_items.new('wm.context_set_value', k, 'PRESS')
-        kmi.properties.data_path = 'tool_settings.mesh_select_mode'
-        kmi.properties.value = v
+        # keymap set for view3D only in editmode
+        #km = wm.keyconfigs.default.keymaps['Mesh']#not working for some users...
+        km = wm.keyconfigs.addon.keymaps.new(name = "Mesh", space_type = "EMPTY")
+        for k, v in mesh_sel_keymap.items():
+            kmi = km.keymap_items.new('wm.context_set_value', k, 'PRESS')
+            kmi.properties.data_path = 'tool_settings.mesh_select_mode'
+            kmi.properties.value = v
+            quickSelect_keymaps.append((km,kmi))
+
+        kmi = km.keymap_items.new('wm.context_toggle', 'FOUR', 'PRESS')
+        kmi.properties.data_path = 'space_data.use_occlude_geometry'
         quickSelect_keymaps.append((km,kmi))
 
-    kmi = km.keymap_items.new('wm.context_toggle', 'FOUR', 'PRESS')
-    kmi.properties.data_path = 'space_data.use_occlude_geometry'
-    quickSelect_keymaps.append((km,kmi))
-
-    # keymap set for UVeditor
-    #using default'UV Editor' doesn't work after a restart so creating a new km
-    #km = wm.keyconfigs.default.keymaps['UV Editor']
-    km = wm.keyconfigs.addon.keymaps.new('UV Editor', space_type='EMPTY', region_type='WINDOW')
-    for k, v in uv_sel_keymap.items():
-        kmi = km.keymap_items.new('wm.context_set_enum', k, 'PRESS')
-        kmi.properties.data_path = 'tool_settings.uv_select_mode'
-        kmi.properties.value = v
-        quickSelect_keymaps.append((km,kmi))
+        # keymap set for UVeditor
+        #using default'UV Editor' doesn't work after a restart so creating a new km
+        #km = wm.keyconfigs.default.keymaps['UV Editor']
+        km = wm.keyconfigs.addon.keymaps.new('UV Editor', space_type='EMPTY', region_type='WINDOW')
+        for k, v in uv_sel_keymap.items():
+            kmi = km.keymap_items.new('wm.context_set_enum', k, 'PRESS')
+            kmi.properties.data_path = 'tool_settings.uv_select_mode'
+            kmi.properties.value = v
+            quickSelect_keymaps.append((km,kmi))
 
 def unregister():
-    wm = bpy.context.window_manager
-    # remove the keymap
-    for km, kmi in quickSelect_keymaps:
-        km.keymap_items.remove(kmi)
-    # clear the list
-    quickSelect_keymaps.clear()
+    if not bpy.app.background:
+        wm = bpy.context.window_manager
+        # remove the keymap
+        for km, kmi in quickSelect_keymaps:
+            km.keymap_items.remove(kmi)
+        # clear the list
+        quickSelect_keymaps.clear()
 
 if __name__ == "__main__":
     register()
